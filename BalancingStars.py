@@ -6,43 +6,48 @@ def validate(close,open):
     if close == ")" and open == "(":
         return True
     return False
-stack = [0,0]
-top = 1
-ip = input()
-balance = 0
-open_is_there_flag = 0
-answer = ""
+def rev_iter(s):
+    for i in range(len(s)-1,-1,-1):
+        if s[i] in ["{","[","("]:
+            return i
+    return -1
+
 balance_counter = 0
-val_flag = 0 
-for i in ip:
-    if i == "*" and stack[-1] == "*"and stack[-2] == "*":
+ip = "{**(**)*}"
+stack = []
+top = -1
+open_is_there = 0
+star_is_there = 0
+ans = ""
+flag = 0
+if ip[0] not in ["{","(","["]:
+    flag = 1
+for i in range(len(ip)):
+    if ip[i] in ["(","{","["]:
+        stack.append(ip[i])
+        top = len(stack) - 1
+        open_is_there = 1
+    if ip[i] == "*" and open_is_there == 1:
+        stack.append(ip[i])
+        star_is_there = 1
+    if ip[i] == "*" and open_is_there == 0:
+        answer = "NO"
+        star_is_there = 1
         continue
-    elif i in ["{","[","("]:
-        stack.append(i)
-        top += 1
-        open_is_there_flag = 1 
-    elif i == "*" and open_is_there_flag == 1:
-        stack.append(i)
-        top += 1
-    elif i == "*" and open_is_there_flag == 0:
-        val_flag = 1
-    elif i in ["}","]",")"] and open_is_there_flag == 0:
-        answer ="NO"   
-    elif i in ["}","]",")"] and open_is_there_flag == 1:
-        if stack[top] == "*" and stack[top-1] == "*" and validate(i,stack[top-2]) == True:
-            del stack[top]
-            del stack[top - 1]
-            del stack[top - 2]
-            top = top - 3
-            balance_counter += 1
-        elif stack[top] == "*" and stack[top-1] in ["{","[","("]:
-            del stack[-1]
-            del stack[-1]
-            top = top -2
-        elif stack[top] in ["{","[","("]:
-            del stack[-1]
-            top = top - 1
-if len(stack) == 2 and val_flag == 0:
+    if ip[i] in ["]",")","}"] and open_is_there == 0:
+        answer = "NO"
+        continue
+    if ip[i] in [")","]","}"] and open_is_there == 1 and validate(ip[i],stack[top]) == True and len(stack)- top > 2:
+        del stack[top:len(stack)]
+        top = rev_iter(stack)
+        balance_counter += 1
+    elif ip[i] in [")","]","}"]:
+        if open_is_there == 0 or validate(ip[i],stack[top]) == False or len(stack)- top <= 2:
+            del stack[top:len(stack)]
+            flag = 1
+            top = rev_iter(stack)
+            continue
+if len(stack) == 0 and open_is_there == 1 and flag == 0 and star_is_there == 1:
     answer = "YES"
 else:
     answer = "NO"
