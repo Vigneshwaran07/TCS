@@ -13,7 +13,7 @@ def rev_iter(s):
     return -1
 
 balance_counter = 0
-ip = "{**(**)*}"
+ip = iniput()
 stack = []
 top = -1
 open_is_there = 0
