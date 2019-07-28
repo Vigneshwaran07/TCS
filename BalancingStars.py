@@ -1,11 +1,4 @@
-def validate(close,open):
-    if close == "}" and open == "{":
-        return True
-    if close == "]" and open == "[":
-        return True
-    if close == ")" and open == "(":
-        return True
-    return False
+validate = {'(':')','{':'}','[':']'}
 def rev_iter(s):
     for i in range(len(s)-1,-1,-1):
         if s[i] in ["{","[","("]:
@@ -13,7 +6,7 @@ def rev_iter(s):
     return -1
 
 balance_counter = 0
-ip = iniput()
+ip = "[{**ghy}]{}[]{{**}}"
 stack = []
 top = -1
 open_is_there = 0
@@ -37,17 +30,18 @@ for i in range(len(ip)):
     if ip[i] in ["]",")","}"] and open_is_there == 0:
         answer = "NO"
         continue
-    if ip[i] in [")","]","}"] and open_is_there == 1 and validate(ip[i],stack[top]) == True and len(stack)- top > 2:
-        del stack[top:len(stack)]
+    if ip[i] in [")","]","}"] and open_is_there == 1 and validate[stack[top]] == ip[i] and len(stack)- top > 2:
+        del stack[top]
         top = rev_iter(stack)
+        if top == -1:
+            stack = []
         balance_counter += 1
     elif ip[i] in [")","]","}"]:
-        if open_is_there == 0 or validate(ip[i],stack[top]) == False or len(stack)- top <= 2:
-            del stack[top:len(stack)]
-            flag = 1
+        if open_is_there == 0 or validate[stack[top]] != ip[i] or (len(stack)- top <= 2 or len(stack==0)):
+            del stack[top]
             top = rev_iter(stack)
-            continue
-if len(stack) == 0 and open_is_there == 1 and flag == 0 and star_is_there == 1:
+result = "".join(stack).replace("*","")
+if len(result) == 0 and open_is_there == 1 and star_is_there == 1:
     answer = "YES"
 else:
     answer = "NO"
