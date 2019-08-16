@@ -1,0 +1,13 @@
+num = int(input())
+tot = ""
+while(num!=0):
+    tot += str(num%4)
+    num //= 4
+try:
+    n = int(tot[::-1],2)
+    print("Yes")
+    print(n)
+except:
+    print("No")
+    
+    #check Digital:series
