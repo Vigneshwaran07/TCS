@@ -1,6 +1,6 @@
 m, n = map(int, input().split())
 a = [[0] * n for i in range(m)]
-res = [[0] * n for i in range(m)] #resukt matrix intialization
+res = [[0] * n for i in range(m)] #result matrix intialization
 for i in range(m):
     a[i] = list(map(int, input().split()))
 ans = []
@@ -15,7 +15,7 @@ count = 0
 for i in range(m):
     for j in range(n):
         if (a[i][j] == 1):
-            if (i == 0 and j == 0):#sam place, so no manipulation
+            if (i == 0 and j == 0):#SAM place, so no manipulation
                 continue
             if (i == 0 and j != n - 1):#find qualities at 2
                 count = a[i][j - 1] + a[i][j + 1] + a[i + 1][j] + a[i + 1][j - 1] + a[i + 1][j + 1]
@@ -34,11 +34,11 @@ for i in range(m):
             else:#find qualities at 6
                 count = a[i - 1][j - 1] + a[i - 1][j] + a[i - 1][j + 1] + a[i][j - 1] + a[i][j + 1] + a[i + 1][j - 1] + \
                         a[i + 1][j] + a[i + 1][j + 1]
-            #find qualities at 'i' represents above example matrix, i denotes position
+            #find qualities at 'i' represents above example matrix, it denotes position
             if (count > maxi):
                 maxi = count
                 ans = [] #empty ans list everytime when you got new maximum
-                ans.append([i + 1, j + 1, count]) #and addnew maximum in ans list in i,j,conunt format
+                ans.append([i + 1, j + 1, count]) #and add new maximum in ans list in i,j,conunt format
             elif count == maxi:#already
                 ans.append([i + 1, j + 1, count])#if more maxi found just add in ans list
             res[i][j] = count
