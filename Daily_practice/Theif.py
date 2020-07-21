@@ -1,8 +1,8 @@
 arr = list(map(int, input().split()))
-inc = arr[0]
-exc = 0
+now = arr[0]
+prev = 0
 for i in range(1, len(arr)):
-    temp = inc
-    inc = max(inc, exc+arr[i])
-    exc = temp
-print(max(inc, exc))
+    temp = now
+    now = max(now, prev+arr[i])
+    prev = temp
+print(max(now, prev))
